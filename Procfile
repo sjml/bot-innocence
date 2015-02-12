@@ -1,1 +1,1 @@
-worker: node bot-clearinghouse.js
+web: node bot-clearinghouse.js

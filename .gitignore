@@ -1,2 +1,4 @@
 node_modules
 credentials.json
+dump.rdb
+npm-debug.log

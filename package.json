@@ -1,16 +1,17 @@
 {
-  "name": "bot-clearinghouse",
+  "name": "bot-innocence",
   "version": "0.0.1",
   "description": "a centralized service for bot-makers",
-  "main": "bot-clearinghouse.js",
+  "main": "bot-innocence.js",
   "scripts": {
-    "start": "node bot-clearinghouse.js"
+    "start": "node bot-innocence.js"
   },
   "author": "Shane Liesegang <shane@techie.net>",
   "license": "MIT",
   "dependencies": {
     "twit": "^1.1.19",
-    "express": "~4.9.x"
+    "redis": "0.12.1",
+    "hiredis": "0.2.0"
   },
   "engines": {
     "node": "0.12.x"

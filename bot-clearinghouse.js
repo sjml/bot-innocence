@@ -20,9 +20,10 @@ var T = new Twit(credentials);
 
 var info = {};
 info.Creator = "Shane Liesegang (@OptimistPanda)";
-info.GitHub = "http://github.com/sjml/bot-clearinghouse";
+info.GitHub = "http://github.com/sjml/bot-innocence";
 info.Description = "This is a centralized clearinghouse where bot creators can get an up-to-date list of potentially trending topics they may wish to avoid. It can be added to by trusted Twitter accounts.";
 info.HowItWorks = "The 'muted' dictionary is an index of phrases to avoid and an expiration timestamp relative to the UNIX epoch.";
+info.HowToAdd = "If you're one of the trusted sources, tweet @BotInnocence saying 'mute [offending phrase]' and it will be muted for 48 hours."
 info.AlternateURL = "You can get just the muted list (without this extra data) at /muted";
 
 var trustedSources = ["@OptimistPanda", "@tinysubversions", "@BooDooPerson"];
@@ -40,7 +41,6 @@ var mutedPhrases = []; //TODO: persist
 var since_id = null; //TODO: persist
 
 function checkForCommands() {
-  console.log("Running periodic check...");
   var params = {include_rts: false};
   if (since_id != null) {
     params.since_id = since_id;

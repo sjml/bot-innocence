@@ -23,6 +23,7 @@ info.Creator = "Shane Liesegang (@OptimistPanda)";
 info.GitHub = "http://github.com/sjml/bot-clearinghouse";
 info.Description = "This is a centralized clearinghouse where bot creators can get an up-to-date list of potentially trending topics they may wish to avoid. It can be added to by trusted Twitter accounts.";
 info.HowItWorks = "The 'muted' dictionary is an index of phrases to avoid and an expiration timestamp relative to the UNIX epoch.";
+info.AlternateURL = "You can get just the muted list (without this extra data) at /muted";
 
 var trustedSources = ["@OptimistPanda", "@tinysubversions", "@BooDooPerson"];
 var trustedLower = trustedSources.map(
@@ -49,13 +50,7 @@ function checkForCommands() {
       for (var i = reply.length - 1; i >= 0; i -= 1) {
         since_id = reply[i].id;
         if (trustedLower.indexOf(reply[i].user.screen_name.toLowerCase()) < 0) {
-          console.log("Ignoring mention from:");
-          console.log(reply[i].user.screen_name);
           continue;
-        }
-        else {
-          console.log("Accepting mention from:");
-          console.log(reply[i].user.screen_name);
         }
         var re = /mute\s+(.*)/i;
         var match = reply[i].text.match(re);
@@ -119,10 +114,25 @@ function buildMutedOutput() {
 
 
 
-var server = http.createServer(function (request, response) {
-  response.writeHead(200, {"Content-Type": "application/json"});
-  response.end(buildFullOutput());
-});
+var server = http.createServer(
+  function (request, response) {
+    if (request.url === "/") {
+      response.writeHead(200, {"Content-Type": "application/json"});
+      response.end(buildFullOutput());
+    }
+    else if (request.url === "/muted") {
+      response.writeHead(200, {"Content-Type": "application/json"});
+      response.end(buildMutedOutput());
+    }
+    else {
+      var errObj = {
+        question : "What are you doing here?",
+      };
+      response.writeHead(404, {"Content-Type" : "application/json"});
+      response.end(stringify(errObj));
+    }
+  }
+);
 server.listen(process.env.PORT || 5000);
 
 

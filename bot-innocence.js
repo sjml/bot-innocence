@@ -214,6 +214,7 @@ redisClient.exists("innocence:since_id",
           }
           else {
             since_id = getReply;
+            console.log("since_id: " + since_id);
           }
         }
       );

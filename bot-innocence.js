@@ -279,10 +279,13 @@ server.listen(process.env.PORT || 5000);
 
 setTimeout(
   function() {
+    console.log("Initial check...");
     checkForCommands();
     // begin periodic checks
+    console.log("Setting up intervals.");
     setInterval(
       function() {
+        console.log("INTERVAL TICK");
         try {
           checkForCommands();
         }

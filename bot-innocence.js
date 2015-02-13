@@ -65,11 +65,16 @@ function stringify(object) {
 }
 
 
+function getTime() {
+  return Math.floor(Date.now() / 1000);
+}
+
+
 function checkForCommands() {
   var needsPersistence = false;
   var params = {include_rts: false};
   if (since_id != null) {
-    params.since_id = since_id;
+    return; // don't run anything if values haven't been set yet
   }
   twitterClient.get("statuses/mentions_timeline", params, 
     function (err, reply) {
@@ -94,7 +99,7 @@ function checkForCommands() {
       }
       else {
         console.error("Couldn't connect to the Twitters.");
-        // console.log(err);
+        console.log(err);
       }
 
       // look for ones to expire
@@ -121,11 +126,6 @@ function checkForCommands() {
   );
   
   console.log("DONE with command check!");
-}
-
-
-function getTime() {
-  return Math.floor(Date.now() / 1000);
 }
 
 
@@ -178,6 +178,7 @@ function buildFullOutput(withTimes) {
 
   return stringify(fullOutput);
 }
+
 
 function buildMutedOutput(withTimes) {
   if (withTimes == undefined) {
@@ -292,5 +293,5 @@ setTimeout(
       1000 * 60 * 2 // checks every 2 minutes
     );
   },
-  2000 // wait a few seconds for initial startup, to get values from redis
+  2000 // wait a few seconds for initial check, to get values from redis
 );

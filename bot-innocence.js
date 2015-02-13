@@ -71,11 +71,14 @@ function getTime() {
 
 
 function checkForCommands() {
-  var needsPersistence = false;
-  var params = {include_rts: false};
   if (since_id == null) {
     return; // don't run anything if values haven't been set yet
   }
+  var needsPersistence = false;
+  var params = {
+    include_rts: false,
+    since_id: since_id
+  };
   twitterClient.get("statuses/mentions_timeline", params, 
     function (err, reply) {
       if (!err) {

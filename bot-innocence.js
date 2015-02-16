@@ -126,10 +126,10 @@ function checkForCommands() {
       if (needsPersistence) {
         redisClient.set("innocence:mute_list", stringify(mutedPhrases));
       }
+      
+      console.log("DONE with command check!");
     }
   );
-  
-  console.log("DONE with command check!");
 }
 
 

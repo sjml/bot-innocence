@@ -1,4 +1,4 @@
-// thanks to Darius Kazemi and Courtney Stanton for sharing their code
+// thanks to Courtney Stanton and Darius Kazemi for sharing their code
 //   for @101atron, on which this is heavily based.
 
 var fs    = require('fs');
@@ -44,7 +44,7 @@ info.GitHub = "http://github.com/sjml/bot-innocence";
 info.Description = "This is a centralized clearinghouse where bot creators can get an up-to-date list of potentially trending topics they may wish to avoid. It can be added to by trusted Twitter accounts.";
 info.HowItWorks = "The 'muted' dictionary is an index of phrases to avoid and an expiration timestamp relative to the UNIX epoch.";
 info.HowToAdd = "If you're one of the trusted sources, tweet @BotInnocence saying 'mute [offending phrase]' and it will be muted for 48 hours."
-info.AlternateURL = "You can get just the muted list (without this extra data) at /muted or /muted_with_expirations";
+info.AlternateURL = "You can get just the muted list (without this extra data) at /muted or /muted_with_data";
 
 var trustedSources = ["@OptimistPanda", "@tinysubversions", "@BooDooPerson"];
 var trustedLower = trustedSources.map(
@@ -53,8 +53,8 @@ var trustedLower = trustedSources.map(
   }
 );
 
-var mutedPhrases = []; //TODO: pull from redis
-var since_id = null; //TODO: pull from redis
+var mutedPhrases = [];
+var since_id = null;
 
 
 
@@ -149,11 +149,12 @@ function mutePhrase(phrase, requestingID, name) {
   for (var i = mutedPhrases.length - 1; i >= 0; i--) {
     if (mutedPhrases[i][0] === phrase) {
       mutedPhrases[i][1] = futureTime;
+      mutedPhrases[i][2] = "@" + name;
       tweetString = "Extending mute of " + phrase + " until " + dateString + ", per @" + name + ".";
     }
   }
   if (tweetString.length == 0) {
-    mutedPhrases[mutedPhrases.length] = [phrase, futureTime];
+    mutedPhrases[mutedPhrases.length] = [phrase, futureTime, "@" + name];
     tweetString = "Muting " + phrase + " until " + dateString + ", per @" + name + ".";
   }
 
@@ -266,7 +267,7 @@ var server = http.createServer(
       response.writeHead(200, {"Content-Type": "application/json"});
       response.end(buildMutedOutput(false));
     }
-    else if (request.url === "/muted_with_expirations") {
+    else if (request.url === "/muted_with_data") {
       response.writeHead(200, {"Content-Type": "application/json"});
       response.end(buildMutedOutput());
     }

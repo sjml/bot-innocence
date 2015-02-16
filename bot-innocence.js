@@ -38,11 +38,12 @@ else {
   redisClient = redis.createClient();
 }
 
+//info for front page
 var info = {};
 info.Creator = "Shane Liesegang (@OptimistPanda)";
 info.GitHub = "http://github.com/sjml/bot-innocence";
 info.Description = "This is a centralized clearinghouse where bot creators can get an up-to-date list of potentially trending topics they may wish to avoid. It can be added to by trusted Twitter accounts.";
-info.HowItWorks = "The 'muted' dictionary is an index of phrases to avoid and an expiration timestamp relative to the UNIX epoch.";
+info.HowItWorks = "The 'muted' list contains phrases to avoid, an expiration timestamp relative to the UNIX epoch, and the Twitter name of the person who requested the mute.";
 info.HowToAdd = "If you're one of the trusted sources, tweet @BotInnocence saying 'mute [offending phrase]' and it will be muted for 48 hours."
 info.AlternateURL = "You can get just the muted list (without this extra data) at /muted or /muted_with_data";
 
@@ -53,8 +54,8 @@ var trustedLower = trustedSources.map(
   }
 );
 
-var mutedPhrases = [];
-var since_id = null;
+var mutedPhrases = []; // "where the magic happens"
+var since_id = null; // what's the most recent tweet we've checked
 
 
 

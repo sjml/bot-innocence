@@ -26,7 +26,8 @@ if innResponse.getcode() == 200:
     trends = filter(lambda x: x not in mutedTopics, trends)
 ```
 
-The list of muted topics is just data, and botmakers can do whatever they want to with it. 
+## What To Do With the List
+The list of muted topics is just data, and botmakers can do whatever they want to with it. Above is a simple example for how to keep it out of new content, but you may also wish to consider looking at recent output and deleting anything that's been muted (in case something was made before the mute list could be updated.)
 
 ## How the List Is Made
 A few Twitter accounts are listed as trustworthy, and when they tweet [@BotInnocence](http://twitter.com/BotInnocence) with the phrase "mute [offending topic]," it will be added to the list for 48 hours. 

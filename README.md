@@ -22,7 +22,7 @@ if innResponse.getcode() == 200:
     # load it from JSON into a Python list
     mutedTopics = json.loads(innResponse.read())
 
-    # filter the trends list, only allowed topics that aren't muted
+    # filter the trends list; only allow topics that aren't muted
     trends = filter(lambda x: x not in mutedTopics, trends)
 ```
 

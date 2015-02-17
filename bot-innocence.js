@@ -126,7 +126,7 @@ function checkForCommands() {
       if (needsPersistence) {
         redisClient.set("innocence:mute_list", stringify(mutedPhrases));
       }
-      
+
       console.log("DONE with command check!");
     }
   );
@@ -174,7 +174,7 @@ function mutePhrase(phrase, requestingID, name) {
 }
 
 
-function buildFullOutput(withTimes) {
+function buildFullOutput() {
   var fullOutput = {}
   fullOutput.info = info;
   fullOutput.trustedSources = trustedSources;
@@ -185,11 +185,11 @@ function buildFullOutput(withTimes) {
 }
 
 
-function buildMutedOutput(withTimes) {
-  if (withTimes == undefined) {
-    withTimes = true;
+function buildMutedOutput(withData) {
+  if (withData == undefined) {
+    withData = true;
   }
-  if (withTimes) {
+  if (withData) {
     var output = {};
     output.muted = mutedPhrases;
     output.currentTimeStamp = getTime();
